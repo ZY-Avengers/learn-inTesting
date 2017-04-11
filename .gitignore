@@ -15,6 +15,8 @@ bower_components
 git.properties
 node_modules
 target/
+.gradle/
+
 
 **/src/site/markdown/README.md
 **/src/site/markdown/src/readme
