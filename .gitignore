@@ -16,7 +16,7 @@ git.properties
 node_modules
 target/
 .gradle/
-
+build/
 
 **/src/site/markdown/README.md
 **/src/site/markdown/src/readme
