@@ -26,9 +26,11 @@ public class ReentrantLockScenario {
 
             for(int i = 0;i < 1000;i++) {
                 final int j=i;
-                Thread thread = new Thread(() -> scenario.incrementing(j));
+                Thread thread = new Thread(() -> {
+                    Thread.yield();
+                    scenario.incrementing(j);
+                });
                 thread.start();
-                thread.join();
             }
             Thread.sleep(2000);
            log.info(""+scenario.count+"and"+scenario.countlong);
