@@ -1,7 +1,10 @@
 package github.meifans.inTesting.leetcode;
 
 import lombok.extern.java.Log;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 /**
  * Created by Meifans Zhao on 2017/4/22.
@@ -57,6 +60,11 @@ public class Sort {
         return a;
     }
 
+    public int binarySearch(int[] a , int target) {
+
+
+        return 0;
+    }
 
 
     @Log
@@ -72,6 +80,17 @@ public class Sort {
                 log.info(""+i);
             }
         }
+
+        @Test
+        public void testBinarySearch(){
+            int[] a = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+            int target = 8;
+            int actual = new Sort().binarySearch(a, target);
+            Assert.assertEquals(Arrays.binarySearch(a,target), actual);
+
+        }
     }
+
+
 
 }
