@@ -9,12 +9,12 @@ import java.util.logging.Logger;
  */
 
 public class ReentrantLockScenario {
-    private int count ;
-    private long countlong;
+    private volatile int count ;
+    private volatile long countlong;
 
     public void incrementing(int i){
         count ++;
-        countlong =countlong+ count + i;
+//        countlong =countlong+ count + i;
     }
 
 
