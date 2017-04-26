@@ -62,40 +62,34 @@ public class Sort {
 
     public int binarySearch(int[] a, int target) {
 
-        int start = 0;
-        int end = a.length - 1;
+        int low = 0;
+        int high = a.length - 1;
 
-        if (a[start] == target) {
-            return start;
+        while (low <= high) {
+            int mid = (high + low) >>> 1;
+            int midVal = a[mid];
+            if (midVal > target)
+                high = mid - 1;
+            else if (midVal < target)
+                low = mid + 1;
+            else
+                return mid;
         }
-        if (a[end] == target) {
-            return end;
-        }
-        while (start != end) {
-            int present = (end - start) / 2;
-            if (a[present] == target) {
-                return present;
-            } else if (a[present] > target) {
-                end = present - 1;
-            } else {
-                start = present + 1;
-            }
-        }
-
-        return new Integer(0);
+        return -(low + 1);
     }
 
     public int binarySearchII(int[] a, int target) {
         return a == null ? -1 : doSearch(a, 0, a.length, target);
-
     }
 
     private static int doSearch(int[] a, int left, int right, int target) {
         if (left > right) return -1;
-        int i = left + (right -left) / 2;
-        if (target == a[i]) return i;
-        if(target>a[i]) return doSearch(a, left + ( right-left) / 2+1, right,target);
-        else return doSearch(a, left, left + (right - left) / 2 - 1,target);
+        int i = (left + right) / 2;
+        if (target == a[i])
+            return i;
+        if (target > a[i])
+            return doSearch(a, i + 1, right, target);
+        return doSearch(a, left, i - 1, target);
     }
 
 
@@ -120,6 +114,8 @@ public class Sort {
             int actual = new Sort().binarySearchII(a, target);
             Assert.assertEquals(Arrays.binarySearch(a, target), actual);
 
+            actual = new Sort().binarySearch(a, target);
+            Assert.assertEquals(Arrays.binarySearch(a, target), actual);
         }
     }
 
