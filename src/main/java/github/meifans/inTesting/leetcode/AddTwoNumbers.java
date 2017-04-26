@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Meifans on 17/4/24.
@@ -42,21 +41,23 @@ public class AddTwoNumbers {
         if (l1 == null || l2 == null) return l1 == null ? l2 : l1;
         ListNode one = l1;
         ListNode two = l2;
-        while ((one = one.next) != null && (two = two.next) != null) ;
-        ListNode s = one ==null?two:one;
-        int step =0;
-        while (s !=null) {
-            s = s.next;
-            step++;
-        }
-        ListNode l = doAdd(l1, l2);
-        if (l.val > 9) {
-            ListNode head = new ListNode(1);
-            l.val = l.val - 10;
-            head.next = l;
-            return head;
-        }
-        return l;
+//        while ((one = one.next) != null && (two = two.next) != null) ;
+//        ListNode s = one ==null?two:one;
+//        int step =0;
+//        while (s !=null) {
+//            s = s.next;
+//            step++;
+//        }
+//        ListNode l = doAdd(l1, l2);
+//        if (l.val > 9) {
+//            ListNode head = new ListNode(1);
+//            l.val = l.val - 10;
+//            head.next = l;
+//            return head;
+//        }
+
+
+        return null;
     }
 
     private static ListNode doAdd(ListNode l1, ListNode l2) {
