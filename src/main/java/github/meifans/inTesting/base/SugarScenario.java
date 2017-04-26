@@ -51,11 +51,9 @@ public class SugarScenario {
     public void add() {
       byte i = 127;
       byte k = 127;
-      log.info("int：" + (i + k) + "，byte:" + (byte) (i + k));
-      assertEquals((byte) (i + k), i += k);  //i+k atom cast int ，but i += k ，byte add direct.
 
-      byte m = 0;
-      log.info("s:" + (int) (m >>> 1) + ",o:" + (byte) 0xff + ",a:" + (byte) 0x80);
+      assertEquals(254,(i+k));
+      assertEquals((byte) (i + k), i += k);  //i+k atom cast int ，but i += k ，byte add direct.
     }
 
     @Test
