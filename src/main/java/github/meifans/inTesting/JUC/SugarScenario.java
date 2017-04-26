@@ -2,8 +2,8 @@ package github.meifans.inTesting.JUC;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.UUID;
 import lombok.extern.java.Log;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -47,8 +47,11 @@ public class SugarScenario {
     }
 
     @Test
-    public void UUID(){
-      log.info(String.valueOf(UUID.randomUUID()));
+    public void add(){
+      byte i =127;
+      byte k =127;
+      log.info("int：" + (i+k)+"，byte:"+(byte)(i+k));
+      Assert.assertEquals((byte)(i+k),i+=k);
     }
   }
 }
