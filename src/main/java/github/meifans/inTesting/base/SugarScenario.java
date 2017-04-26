@@ -1,9 +1,10 @@
 package github.meifans.inTesting.base;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import lombok.extern.java.Log;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -47,11 +48,20 @@ public class SugarScenario {
     }
 
     @Test
-    public void add(){
-      byte i =127;
-      byte k =127;
-      log.info("int：" + (i+k)+"，byte:"+(byte)(i+k));
-      Assert.assertEquals((byte)(i+k),i+=k);
+    public void add() {
+      byte i = 127;
+      byte k = 127;
+      log.info("int：" + (i + k) + "，byte:" + (byte) (i + k));
+      assertEquals((byte) (i + k), i += k);  //i+k atom cast int ，but i += k ，byte add direct.
+
+      byte m = 0;
+      log.info("s:" + (int) (m >>> 1) + ",o:" + (byte) 0xff + ",a:" + (byte) 0x80);
+    }
+
+    @Test
+    public void _byte() {
+      assertEquals((byte) 0x80, -128);
+      assertEquals((byte)0xff,-1);
     }
   }
 }
