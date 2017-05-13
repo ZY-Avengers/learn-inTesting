@@ -38,40 +38,41 @@ public class AddTwoNumbers {
     }
 
     public static ListNode addTwoNumbersII(ListNode l1, ListNode l2) {
-        if (l1 == null || l2 == null) return l1 == null ? l2 : l1;
-        ListNode one = l1;
-        ListNode two = l2;
-//        while ((one = one.next) != null && (two = two.next) != null) ;
-//        ListNode s = one ==null?two:one;
-//        int step =0;
-//        while (s !=null) {
-//            s = s.next;
-//            step++;
-//        }
-//        ListNode l = doAdd(l1, l2);
-//        if (l.val > 9) {
-//            ListNode head = new ListNode(1);
-//            l.val = l.val - 10;
-//            head.next = l;
-//            return head;
-//        }
+        ListNode n1 = l1, n2 = l2;
+        for (; n1 != null && n2 != null; n1 = n1.next, n2 = n2.next) ;
+
+        ListNode remedy = new ListNode(0), r = remedy;
+
+        for (ListNode s = (n1 == null ? n2 : n1)
+             ; s != null; s = s.next)
+
+            r = (r.next = new ListNode(0));
 
 
-        return null;
+        r.next = n2 == null ? l2 : l1;
+        ListNode result = doAdd(remedy.next, n2 == null ? l1 : l2);
+
+        if (result.val > 9) {
+            ListNode precede = new ListNode(1);
+            precede.next = result;
+            result.val = result.val - 10;
+            return precede;
+        }
+        return result;
     }
 
     private static ListNode doAdd(ListNode l1, ListNode l2) {
-        if (l1 == null && l2 == null) return null;
-        ListNode l;
-        if (l1.next == null && l2.next == null) {
-            l = new ListNode(l1.val + l2.val);
-        } else {
-            ListNode next = doAdd(l1.next == null ? l1 : l1.next, l2.next == null ? l2 : l2.next);
-            l = new ListNode((next.val / 10) + l1.val + l2.val);
-            next.val = next.val % 10;
-            l.next = next;
-        }
-        return l;
+        if (l1 == null && l2 == null)
+            return null;
+
+        ListNode later = doAdd(l1.next, l2.next);
+        if (later == null)
+            return new ListNode(l1.val + l2.val);
+
+        ListNode cur = new ListNode((later.val / 10) + l1.val + l2.val);
+        later.val = later.val % 10;
+        cur.next = later;
+        return cur;
     }
 
     @Log
@@ -173,14 +174,4 @@ public class AddTwoNumbers {
 
     }
 
-}
-
-class ListNode {
-
-    int val;
-    ListNode next;
-
-    ListNode(int x) {
-        val = x;
-    }
 }
