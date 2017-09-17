@@ -1,9 +1,11 @@
 package github.meifans.inTesting.JUC;
 
+import org.junit.Test;
+
 import java.util.LinkedList;
 import java.util.Random;
+
 import lombok.extern.java.Log;
-import org.junit.Test;
 
 /**
  * Created by Meifans on 17/4/21.
@@ -44,7 +46,6 @@ public class ThreadScenario {
       Thread.sleep(200);
 
     }
-
 
   }
 
