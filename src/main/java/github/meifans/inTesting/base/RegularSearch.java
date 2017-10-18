@@ -10,7 +10,7 @@ public class RegularSearch {
 
     @Test
     public void testRegular(){
-        String target = "124ab14254ab";
-        System.out.println(target.matches("-?\\d+(\\.\\d+)?"));
+        String target = "aaaa";
+        System.out.println(target.matches("a+a"));
     }
 }
