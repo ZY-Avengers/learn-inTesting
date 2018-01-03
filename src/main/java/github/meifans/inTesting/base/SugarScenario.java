@@ -1,11 +1,13 @@
 package github.meifans.inTesting.base;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Iterator;
+
 import lombok.extern.java.Log;
-import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Meifans on 17/4/13.
@@ -30,6 +32,17 @@ public class SugarScenario {
     }
   }
 
+  @Test
+  public void testMethodCall(){
+    Object value = 3;
+    String s = String.valueOf(value);
+    System.out.println(s);
+  }  @Test
+  public void testMethodCalld(){
+    Object value = 3;
+    String s = String.valueOf(value);
+    System.out.println(s);
+  }
 
   @Log
   public static class SugarTest {
