@@ -22,9 +22,9 @@ public class LongestSubstringWithoutRepeatingCharacters {
             char cur = chars[to];
 
             if (contain(set, cur)) {
-                max = Math.max(max, to - from);
                 int firstRepeatIndex = set[cur];
-                invalidSet(set,chars, from, firstRepeatIndex);
+                max = Math.max(max, to - from);
+                invalidSet(set, chars, from, firstRepeatIndex);
                 from = firstRepeatIndex + 1;
                 set[cur] = to;
             } else {
@@ -41,7 +41,6 @@ public class LongestSubstringWithoutRepeatingCharacters {
 
         for (int i = from; i <=to; i++) {
             set[chars[i]] = -1;
-
         }
     }
 
