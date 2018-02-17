@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -41,6 +42,13 @@ public class JAVA8DateTime {
         List<DataToMap> list = new ArrayList<>();
 
 
+    }
+
+    @Test
+    public void test(){
+        Date date = new Date(1527234076583L);
+
+        System.out.println();
     }
 
     private class DataToMap {

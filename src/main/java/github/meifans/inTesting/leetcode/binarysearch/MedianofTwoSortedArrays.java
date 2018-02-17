@@ -1,4 +1,6 @@
 package github.meifans.inTesting.leetcode.binarysearch;
+import com.google.gson.Gson;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +15,6 @@ import java.util.Map;
  */
 public class MedianofTwoSortedArrays {
 
-
     /**
      * run time complexity O(m+n)
      */
@@ -25,32 +26,57 @@ public class MedianofTwoSortedArrays {
     }
 
     /**
-     * run time complexity
+     * run time complexity log(max(m,n))
      */
     public double findMedianSortedArraysII(int[] nums1, int[] nums2) {
-        if (isEmpty(nums1) || isEmpty(nums2)) {
-            return isEmpty(nums1) ? getMedian(nums2) : getMedian(nums1);
+
+        if (nums1.length < nums2.length) {
+            return findMedianSortedArraysII(nums2, nums1);
         }
-        return 0.0;
+
+        if (nums2.length == 0) {
+            return getMedian(nums1);
+        }
+
+        int l = nums1.length + nums2.length, avg = l >> 1;
+        int m = avg - nums2.length, n = avg;
+        int i, j;
+
+        for (; ; ) {
+            i = (m + n) >> 1;
+            j = avg - i;
+
+            if (j < nums2.length && nums1[i - 1] > nums2[j]) { // left move
+                n = i - 1;
+            } else if (j > 0 && nums2[j - 1] > nums1[i]) { //right move
+                m = i + 1;
+            } else if ((j < nums2.length && nums1[i - 1] <= nums2[j])
+                    || (j > 0 && nums2[j - 1] <= nums1[i])) {
+
+                if ((l & 1) == 1) {
+                    return j == nums2.length ? nums1[i] : Math.min(nums1[i], nums2[j]);
+                }
+                int li = i == 0 ? 0 : nums1[i - 1];
+                int lj = j == 0 ? 0 : nums2[j - 1];
+                int ri = i == nums1.length ? Integer.MAX_VALUE : nums1[i];
+                int rj = j == nums2.length ? Integer.MAX_VALUE : nums2[j];
+                return (Math.max(li, lj) + Math.min(ri, rj)) * 0.5;
+            }
+        }
     }
-
-
 
     private boolean isEmpty(int[] nums2) {
         return nums2 == null || nums2.length == 0;
     }
 
-
     private double getMedian(int[] nums) {
-        if (nums == null || nums.length == 0) {
+        if (nums.length == 0) {
             return 0.0;
         }
-
-        return (nums.length & 1) == 1
+        return (nums.length & 0x1) == 1
                 ? nums[nums.length / 2]
                 : (nums[(nums.length / 2) - 1] + nums[nums.length / 2]) / 2.0;
     }
-
 
     private int[] merge(int[] nums1, int[] nums2) {
         int[] merged = new int[nums1.length + nums2.length];
@@ -79,22 +105,30 @@ public class MedianofTwoSortedArrays {
         return merged;
     }
 
+
     @Test
     public void test() {
         Map<ArrayPair, Double> cases = new HashMap<>();
 
-        cases.put(new ArrayPair(new int[]{1, 3}, new int[]{2}), 2.0);
-        cases.put(new ArrayPair(new int[]{1}, new int[]{1}), 1.0);
         cases.put(new ArrayPair(new int[]{1, 2}, new int[]{3, 4}), 2.5);
+        cases.put(new ArrayPair(new int[]{1}, new int[]{1}), 1.0);
         cases.put(new ArrayPair(new int[]{1, 2}, new int[]{1, 2}), 1.5);
+        cases.put(new ArrayPair(new int[]{1, 3}, new int[]{2}), 2.0);
         cases.put(new ArrayPair(new int[]{1, 2}, new int[]{3, 4, 5, 6, 7, 8}), 4.5);
         cases.put(new ArrayPair(new int[]{1, 3}, new int[]{2, 4, 5, 6, 7, 8}), 4.5);
         cases.put(new ArrayPair(new int[]{3}, new int[]{1, 2}), 2.0);
         cases.put(new ArrayPair(new int[]{1}, new int[]{2, 3}), 2.0);
+        cases.put(new ArrayPair(new int[]{1, 2, 4}, new int[]{3, 5, 6}), 3.5);
+        cases.put(new ArrayPair(new int[]{1, 2, 4}, new int[]{3, 5, 6, 7}), 4.0);
+        cases.put(new ArrayPair(new int[]{}, new int[]{1}), 1.0);
 
         cases.forEach((params, expected) -> {
-            Double actual = findMedianSortedArraysII(params.first, params.second);
-            Assert.assertEquals(expected, actual);
+            try {
+                Double actual = findMedianSortedArraysII(params.first, params.second);
+                Assert.assertEquals(expected, actual);
+            } catch (Exception e) {
+                System.out.println("input:" + new Gson().toJson(params));
+            }
         });
 
     }
