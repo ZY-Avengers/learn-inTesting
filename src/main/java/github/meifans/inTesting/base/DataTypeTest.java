@@ -22,7 +22,9 @@ public class DataTypeTest {
     }
     @Test
     public void testJ(){
-
+        String s = null;
+        String ss = "1";
+        System.out.println(ss.equals(s));
     }
 
     @Test

@@ -27,6 +27,21 @@ public class MedianofTwoSortedArrays {
 
     /**
      * run time complexity log(min(m,n))
+     *
+     * this algorithm base on binary search.
+     * eg:
+     * input
+     *    2 5 6 7 8   ->a
+     *    1 2 4       ->b
+     * solution
+     *    2 / 5 6 7 8
+     *    1 2 4 /
+     * flag=3,means spilt b before 3。then should spilt a at a[1] by finding median.
+     * the slash is point of division.
+     * the condition of "flag" is the answer,only when
+     * a[before] <= b[after] && b[before] <= a[after] if exist.
+     *
+     *
      */
     public double findMedianSortedArraysII(int[] nums1, int[] nums2) {
 
@@ -44,7 +59,7 @@ public class MedianofTwoSortedArrays {
 
         for (; ; ) {
             s = (m + n) >> 1;
-            l = avg - s;
+            l = avg - s; // if total is odd, just return min([l],[s]).
 
             if (s < nums2.length && nums1[l - 1] > nums2[s]) {
                 m = s + 1;

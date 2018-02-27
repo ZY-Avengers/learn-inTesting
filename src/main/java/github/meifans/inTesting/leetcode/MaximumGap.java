@@ -26,5 +26,6 @@ public class MaximumGap {
 
         int gap = this.maximumGap(nums);
         System.out.println(gap);
+
     }
 }
