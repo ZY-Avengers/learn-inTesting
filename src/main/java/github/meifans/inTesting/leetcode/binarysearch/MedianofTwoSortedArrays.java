@@ -126,16 +126,16 @@ public class MedianofTwoSortedArrays {
         Map<ArrayPair, Double> cases = new HashMap<>();
 
         cases.put(new ArrayPair(new int[]{1}, new int[]{2, 3}), 2.0);
-//        cases.put(new ArrayPair(new int[]{1, 2}, new int[]{3, 4}), 2.5);
-//        cases.put(new ArrayPair(new int[]{1}, new int[]{1}), 1.0);
-//        cases.put(new ArrayPair(new int[]{1, 2}, new int[]{1, 2}), 1.5);
-//        cases.put(new ArrayPair(new int[]{1, 3}, new int[]{2}), 2.0);
-//        cases.put(new ArrayPair(new int[]{1, 2}, new int[]{3, 4, 5, 6, 7, 8}), 4.5);
-//        cases.put(new ArrayPair(new int[]{1, 3}, new int[]{2, 4, 5, 6, 7, 8}), 4.5);
-//        cases.put(new ArrayPair(new int[]{3}, new int[]{1, 2}), 2.0);
-//        cases.put(new ArrayPair(new int[]{1, 2, 4}, new int[]{3, 5, 6}), 3.5);
-//        cases.put(new ArrayPair(new int[]{1, 2, 4}, new int[]{3, 5, 6, 7}), 4.0);
-//        cases.put(new ArrayPair(new int[]{}, new int[]{1}), 1.0);
+        cases.put(new ArrayPair(new int[]{1, 2}, new int[]{3, 4}), 2.5);
+        cases.put(new ArrayPair(new int[]{1}, new int[]{1}), 1.0);
+        cases.put(new ArrayPair(new int[]{1, 2}, new int[]{1, 2}), 1.5);
+        cases.put(new ArrayPair(new int[]{1, 3}, new int[]{2}), 2.0);
+        cases.put(new ArrayPair(new int[]{1, 2}, new int[]{3, 4, 5, 6, 7, 8}), 4.5);
+        cases.put(new ArrayPair(new int[]{1, 3}, new int[]{2, 4, 5, 6, 7, 8}), 4.5);
+        cases.put(new ArrayPair(new int[]{3}, new int[]{1, 2}), 2.0);
+        cases.put(new ArrayPair(new int[]{1, 2, 4}, new int[]{3, 5, 6}), 3.5);
+        cases.put(new ArrayPair(new int[]{1, 2, 4}, new int[]{3, 5, 6, 7}), 4.0);
+        cases.put(new ArrayPair(new int[]{}, new int[]{1}), 1.0);
 
         cases.forEach((params, expected) -> {
             try {

@@ -6,14 +6,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 /**
  * Created by Meifans on 2017/5/9.
@@ -36,11 +34,8 @@ public class StreamTest {
                 new Demo(1, "1"), new Demo(2, "2")
         );
 
-        Map<Integer, List<Demo>> actual = demos.stream().collect(Collectors.groupingBy(Demo::getYear));
-
-        demos.forEach(expected -> {
-            assertNotEquals(expected, actual.get(expected.getYear()));
-        });
+        List<Demo> actuals = demos.stream().filter(demo -> demo.getYear() == 1).collect(Collectors.toList());
+        assertEquals(demos.get(0),actuals.get(0));
     }
 
     @Test

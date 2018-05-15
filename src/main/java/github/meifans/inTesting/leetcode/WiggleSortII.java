@@ -87,7 +87,7 @@ public class WiggleSortII {
         }
         this.wiggleSortI(nums);
         for (int num : nums) {
-            System.out.print(num);
+            System.out.println(num);
         }
     }
 
