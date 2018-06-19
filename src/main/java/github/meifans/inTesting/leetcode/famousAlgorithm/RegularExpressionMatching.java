@@ -15,9 +15,9 @@ public class RegularExpressionMatching {
     public static boolean isMatch(String s, String p) {
         Stack<Frag> fStack = new Stack<>();
         char[] chars = s.toCharArray();
-
         Frag e;
         State state;
+
         for (char c : chars) {
             switch (c) {
                 case '*':
@@ -33,19 +33,6 @@ public class RegularExpressionMatching {
 
         return false;
 
-    }
-
-    @Test
-    public void test() {
-        Assert.assertTrue(isMatch("aa", "a"));
-        Assert.assertTrue(isMatch("aa", "aa"));
-        Assert.assertTrue(isMatch("aaa", "aa"));
-        Assert.assertTrue(isMatch("aa", "a*"));
-        Assert.assertTrue(isMatch("aa", ".*"));
-        Assert.assertTrue(isMatch("ab", ".*"));
-        Assert.assertTrue(isMatch("aab", "c*a*b"));
-
-        "".replaceAll("^[sp].+sas-shaman-[^p].+]", "");
     }
 
     static class State {
@@ -68,6 +55,18 @@ public class RegularExpressionMatching {
                 }
             }
         }
+
+    }
+
+    @Test
+    public void test() {
+        Assert.assertTrue(isMatch("aa", "a"));
+        Assert.assertTrue(isMatch("aa", "aa"));
+        Assert.assertTrue(isMatch("aaa", "aa"));
+        Assert.assertTrue(isMatch("aa", "a*"));
+        Assert.assertTrue(isMatch("aa", ".*"));
+        Assert.assertTrue(isMatch("ab", ".*"));
+        Assert.assertTrue(isMatch("aab", "c*a*b"));
     }
 
     static class Frag {
