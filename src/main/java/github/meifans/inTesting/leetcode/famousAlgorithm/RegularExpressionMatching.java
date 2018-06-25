@@ -11,24 +11,30 @@ import java.util.Stack;
  * @author pengfei.zhao
  */
 public class RegularExpressionMatching {
-    final static int start = 256;
-    final static int end = 257;
-    final static int any = 258;
+    final static int ANY = 256;
+    final static int SPLIT = 257;
+    final static int START = 258;
+    final static int END = 259;
 
+
+    // NFA
     public static boolean isMatch(String str, String p) {
         Stack<State> sStack = new Stack<>();
         char[] chars = p.toCharArray();
         State e;
         State state;
 
+        sStack.push(new State(START, null, null));
         for (char c : chars) {
             switch (c) {
                 case '*':
-                    e = sStack.peek();
-                    e.out1 = e;
+                    e = sStack.pop();
+                    State split = new State(SPLIT, null, e);
+                    e.out = split;
+                    sStack.push(split);
                     break;
                 case '.':
-                    e = new State(any, null, null);
+                    e = new State(ANY, null, null);
                     sStack.push(e);
                     break;
                 default:
@@ -36,6 +42,7 @@ public class RegularExpressionMatching {
                     sStack.push(e);
             }
         }
+        sStack.push(new State(END, null, null));
 
         List<State> states = new ArrayList<>(sStack); //reverse stack
         State start = null, pre, post;
@@ -56,13 +63,16 @@ public class RegularExpressionMatching {
 
 
     public static boolean match(State s, char[] chars, int i) {
-        if (s == null && i == chars.length) {
+        if (s != null && i == chars.length && s.isFinal()) {
             return true;
         }
 
-        if (s != null && i < chars.length) {
-            return s.isMatch(chars[i]) && (
-                    match(s.out, chars, i + 1) || match(s.out1, chars, i + 1));
+        if (s != null) {
+            if (s.needChar() && i < chars.length) {
+                return s.isMatch(chars[i]) && (match(s.out, chars, i + 1) || match(s.out1, chars, i + 1));
+            } else if (!s.needChar() && i <= chars.length) {
+                return (match(s.out, chars, i) || match(s.out1, chars, i));
+            }
         }
 
         return false;
@@ -77,6 +87,10 @@ public class RegularExpressionMatching {
         Assert.assertTrue(isMatch("aa", ".*"));
         Assert.assertTrue(isMatch("ab", ".*"));
         Assert.assertTrue(isMatch("aab", "c*a*b"));
+
+        Assert.assertFalse(isMatch("ab", ".*c"));
+        Assert.assertTrue(isMatch("aa", "a*"));
+        Assert.assertFalse(isMatch("ab", ".*c"));
     }
 
     static class State {
@@ -90,8 +104,16 @@ public class RegularExpressionMatching {
             this.out1 = out1;
         }
 
+        public boolean needChar() {
+            return c < SPLIT;
+        }
+
+        public boolean isFinal() {
+            return c == END;
+        }
+
         public boolean isMatch(int c) {
-            if (this.c == any)
+            if (this.c == ANY)
                 return true;
 
             return this.c == c;
