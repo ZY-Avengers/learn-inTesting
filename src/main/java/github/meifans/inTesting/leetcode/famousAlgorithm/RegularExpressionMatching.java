@@ -22,7 +22,6 @@ public class RegularExpressionMatching {
         Stack<State> sStack = new Stack<>();
         char[] chars = p.toCharArray();
         State e;
-        State state;
 
         sStack.push(new State(START, null, null));
         for (char c : chars) {
