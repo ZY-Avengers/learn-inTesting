@@ -1,29 +1,33 @@
 package github.meifans.inTesting.leetcode.abilitycode;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 /**
  * @author pengfei.zhao
  */
 public class IntegerToRoman {
 
-    Roman[] romans = {of(1000, "M"), of(500, "D"), of(100, "C"), of(50, "L"), of(10, "X"), of(5, "V"), of(1, "I")};
-    Roman[] decreRomans = {of(900, "XM"), of(400, "CD"), of(90, "xC"), of(50, "L"), of(10, "X"), of(5, "V"), of(1, "I")};
+    Roman[] romans = {of(1000, "M"), of(900, "CM"), of(500, "D"), of(400, "CD"), of(100, "C"), of(90, "XC"), of(50, "L"), of(40, "XL"), of(10, "X"), of(9, "IX"), of(5, "V"), of(4, "IV"), of(1, "I")};
 
     /**
-     * I1 V5 X10 L 50 C 100 D 500 M1000 input:1 to 3999
+     * 因为不是每次减完一个数至少减少一位，比如120 - 100 = 12. 要警惕减完10，可能还可以减10。
      */
     public String intToRoman(int num) {
-        int i = num;
         StringBuilder roman = new StringBuilder();
-        while (i > 0) {
-            for (Roman r : this.romans) {
-                if (i >= r.threshold) {
-                    roman.append(r.symbol);
-                    i -= r.threshold;
+        while (num > 0) {
+            for (int j = 0; j < romans.length; ) {
+                if (num >= romans[j].threshold) {
+                    roman.append(romans[j].symbol);
+                    num -= romans[j].threshold;
+                } else {
+                    j++;
                 }
             }
         }
         return roman.toString();
     }
+
 
     Roman of(int threshold, String symbol) {
         Roman roman = new Roman();
@@ -32,8 +36,15 @@ public class IntegerToRoman {
         return roman;
     }
 
+    @Test
+    public void test() {
+        Assert.assertEquals("IV", new IntegerToRoman().intToRoman(4));
+    }
+
     static class Roman {
         int threshold;
         String symbol;
     }
+
+
 }
