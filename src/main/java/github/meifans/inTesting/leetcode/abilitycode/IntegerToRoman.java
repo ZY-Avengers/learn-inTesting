@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
+ * integer to roman and roman to integer
+ *
  * @author pengfei.zhao
  */
 public class IntegerToRoman {
@@ -28,6 +30,22 @@ public class IntegerToRoman {
         return roman.toString();
     }
 
+    public int romanToInt(String s) {
+        int sum = 0;
+        int i = 0;
+        while (i < s.length()) {
+            for (int j = 0; j < romans.length; ) {
+                if (s.startsWith(romans[j].symbol, i)) {
+                    sum += romans[j].threshold;
+                    i += romans[j].symbol.length();
+                } else {
+                    j++;
+                }
+            }
+        }
+        return sum;
+    }
+
 
     Roman of(int threshold, String symbol) {
         Roman roman = new Roman();
@@ -36,14 +54,15 @@ public class IntegerToRoman {
         return roman;
     }
 
-    @Test
-    public void test() {
-        Assert.assertEquals("IV", new IntegerToRoman().intToRoman(4));
-    }
-
     static class Roman {
         int threshold;
         String symbol;
+    }
+
+    @Test
+    public void test() {
+        Assert.assertEquals("IV", new IntegerToRoman().intToRoman(4));
+        Assert.assertEquals(4, new IntegerToRoman().romanToInt("IV"));
     }
 
 
