@@ -1,4 +1,4 @@
-package github.meifans.inTesting.leetcode.binarysearch;
+package github.meifans.inTesting.leetcode.trend;
 
 import org.junit.Assert;
 import org.junit.Test;

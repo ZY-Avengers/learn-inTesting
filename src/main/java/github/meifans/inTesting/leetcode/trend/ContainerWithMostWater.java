@@ -1,4 +1,4 @@
-package github.meifans.inTesting.leetcode.abilitycode;
+package github.meifans.inTesting.leetcode.trend;
 
 import org.junit.Test;
 
