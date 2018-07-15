@@ -1,8 +1,5 @@
 package github.meifans.inTesting.leetcode.dp;
 
-import org.junit.Test;
-
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,34 +8,19 @@ import java.util.List;
  */
 public class GenerateParentheses {
     public List<String> generateParenthesis(int n) {
-        if (n > 1) {
-            List<String> res = new LinkedList<>();
-            for (String s : generateParenthesis(n - 1)) {
-                res.add("(" + s + ")");
-                if (s.startsWith("()") && s.endsWith("()")) {
-                    res.add("()" + s);
-                } else {
-                    res.add("()" + s);
-                    res.add(s + "()");
-                }
-            }
-            return res;
-        }
-        return Arrays.asList("()");
+        return generateParenthesis("", n, n, new LinkedList<>());
     }
 
-    @Test
-    public void test() {
-        String[] s = {"(((())))", "()((()))", "((()))()", "(()(()))", "()()(())", "()(())()", "((())())", "()(())()", "(())()()", "((()()))", "()(()())", "(()())()", "(()()())", "()()()()"};
-        System.out.println(s);
-        String[] ss = {"(((())))", "((()()))", "((())())", "((()))()", "(()(()))", "(()()())", "(()())()", "(())(())", "(())()()", "()((()))", "()(()())", "()(())()", "()()(())", "()()()()"};
-        Arrays.sort(ss);
-        for (int i = 0; ; i++) {
-            if (!s[i].equals(ss[i])) {
-                System.out.println(s[i]+":"+ss[i]);
-            }
+    public List<String> generateParenthesis(String s, int left, int right, List<String> res) {
+        if (left > 0) {
+            generateParenthesis(s + "(", left - 1, right, res);
         }
-        System.out.println(ss);
+        if (right > 0 && left < right) {
+            generateParenthesis(s + ")", left, right - 1, res);
+        }
+        if (left == 0 && right == 0) {
+            res.add(s);
+        }
+        return res;
     }
-
 }
