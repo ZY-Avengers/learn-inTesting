@@ -1,15 +1,15 @@
 package github.meifans.inTesting.leetcode.famousAlgorithm;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 /**
  * @author pengfei.zhao
  */
 public class ImplementStrStr {
     public int strStr(String haystack, String needle) {
         if (needle.isEmpty() || haystack.isEmpty()) {
-            if (needle.equals(haystack)) {
-                return 0;
-            }
-            if (needle.isEmpty()) {
+            if (needle.equals(haystack)||needle.isEmpty()) {
                 return 0;
             }
             return -1;
@@ -17,10 +17,17 @@ public class ImplementStrStr {
 
         int[] helper = new int[needle.length()];
         helper[0] = 0;
-        for (int i = 1; i < helper.length; i++) {
-            if (i == 1) {
-                helper[1] = 0;
-            } else helper[i] = needle.charAt(helper[i - 1]) == needle.charAt(i - 1) ? helper[i - 1] + 1 : 0;
+        if (helper.length > 1) helper[1] = 0;
+        int k = 0;
+        for (int i = 2; i < helper.length; i++) {
+            while (k > 0 && needle.charAt(k) != needle.charAt(i - 1)) {
+                k = helper[k];
+            }
+
+            if (needle.charAt(k) == needle.charAt(i - 1)) {
+                k++;
+            }
+            helper[i] = k;
         }
 
         int i = 0, j = 0;
@@ -38,6 +45,13 @@ public class ImplementStrStr {
             return i - needle.length();
         }
         return -1;
+    }
+
+    @Test
+    public void test() {
+        String haystack = "aabaaabaaac";
+        String needle = "aabaaac";
+        Assert.assertEquals(4, new ImplementStrStr().strStr(haystack, needle));
     }
 
 }
