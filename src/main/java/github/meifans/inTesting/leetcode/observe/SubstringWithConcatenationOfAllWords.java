@@ -46,62 +46,54 @@ public class SubstringWithConcatenationOfAllWords {
 
     // fastest
     public List<Integer> findSubstringI(String s, String[] words) {
-        List<Integer> list = new ArrayList<Integer>();
-        if (s == null || s.length() == 0 || words == null || words.length == 0)
-            return list;
-        int sLen = s.length(), wLen = words[0].length(), wsLen = words.length;
-        if (sLen < wLen * wsLen)
-            return list;
-        Map<String, Integer> map = new HashMap<>(); // 记录words中每一个字符串的数目
-        for (String word : words) {
-            if (map.containsKey(word))
-                map.put(word, map.get(word) + 1);
-            else
-                map.put(word, 1);
+        List<Integer> r = new ArrayList<>();
+        if (s == null || s.length() == 0 || words == null || words.length == 0) return r;
+
+        int wl = words[0].length();
+        int totalWords = words.length;
+        int windowSize = wl * totalWords;
+
+        Map<String, Integer> wordFreq = new HashMap<>();
+        for (String eachWord : words)
+        {
+            wordFreq.put(eachWord, wordFreq.getOrDefault(eachWord, 0) + 1);
         }
-        for (int i = 0; i < wLen; i++) {
-            int left = i, right = i, window = 0; // 窗口的大小和左右边界
-            while (right + (wsLen - window) * wLen <= sLen && right + wLen <= sLen) {
-                String cur = s.substring(right, right + wLen); // right位置的字符串
-                if (map.containsKey(cur)) {
-                    int cnt = map.get(cur); // 当前字符串的个数
-                    window++; // 包含当前字符串，窗口大小+1
-                    if (cnt > 0) {
-                        map.put(cur, cnt - 1);
-                    } else { // map当前字符串个数为0，说明出现重复字符串
-                        String removed = s.substring(left, left + wLen); // 从窗口左边开始移除字符串
-                        while (!removed.equals(cur)) {
-                            map.put(removed, map.get(removed) + 1); // 恢复移除字符串的个数
-                            left += wLen;
-                            window--;
-                            removed = s.substring(left, left + wLen);
-                        }
-                        left += wLen;
-                        window--;
+
+        for (int i = 0; i < wl; i++)  // we don't need to scan all characters in S because every word in dictionary is same length
+        {
+            for (int j = i; j + windowSize <= s.length(); j += wl)
+            {
+                // substring of window size
+                String sub = s.substring(j, j + windowSize);
+
+                // this local hashmap lets us know if a word does not exist or if there are excessive duplicates
+                Map<String, Integer> localM = new HashMap<>();
+                int totalWordsMatched = 0;
+                // go backward and parse each word of WL size
+                for (int k = totalWords - 1; k >= 0; k--)
+                {
+                    int begin = k * wl;
+                    int end = (k + 1) * wl;
+                    String word = sub.substring(begin, end);
+
+                    int num = localM.getOrDefault(word, 0) + 1;
+                    if (num > wordFreq.getOrDefault(word, 0))  // this one check let us know if a word does not exist or an excessive duplicate
+                    {
+                        // this is the reason why we go backward, optimization: to be able to reset the next candidate window size
+                        j = j + k*wl;
+                        break;
                     }
-                    if (window == wsLen) // 窗口大小等于数组长度，匹配成功
-                        list.add(left);
-                } else {
-                    // 将map恢复原位
-                    window = 0;
-                    while (left < right) {
-                        String removed = s.substring(left, left + wLen); // 从窗口左边开始移除字符串
-                        map.put(removed, map.get(removed) + 1); // 恢复移除字符串的个数
-                        left += wLen;
-                    }
-                    left += wLen; // 左边跳过当前这一位不匹配的字符串
+                    localM.put(word, localM.getOrDefault(word, 0) + 1);
+                    totalWordsMatched++;
                 }
-                right += wLen; // 窗口往右拓展一个字符串的长度
-            }
-            // 将map恢复原位
-            while (left < right) {
-                String removed = s.substring(left, left + wLen); // 从窗口左边开始移除字符串
-                map.put(removed, map.get(removed) + 1); // 恢复移除字符串的个数
-                left += wLen;
+                if (totalWordsMatched == totalWords)
+                {
+                    r.add(j);
+                }
             }
         }
 
-        return list;
+        return r;
     }
 
     @Test
