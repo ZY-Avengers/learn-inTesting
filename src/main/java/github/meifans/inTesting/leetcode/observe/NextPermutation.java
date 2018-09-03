@@ -24,18 +24,38 @@ public class NextPermutation {
         if (i > 0) {
             int uncertain = nums[i - 1];
             int nextHead = nums.length - 1;
-            while (nextHead >= i && uncertain >= nums[nextHead])
+            while (nextHead >= i && uncertain >= nums[nextHead]) {
                 nextHead--;
+            }
             swap(nums, i - 1, nextHead);
         }
+
         reverse(nums, i, nums.length - 1);
+    }
+
+    // int nextHead = binarySearch(nums, i, nums.length - 1, uncertain);
+    private int binarySearch(int[] nums, int from, int to, int target) {
+        int mid;
+        while (from < to) {
+            mid = (from + to) / 2;
+            if (target >= nums[mid]) {
+                to = mid - 1;
+                if (nums[to] > target) {
+                    return to;
+                }
+            } else if (target < nums[mid]) {
+                from = mid + 1;
+                if (nums[from] <= target) {
+                    return from - 1;
+                }
+            }
+        }
+        return from;
     }
 
     private void reverse(int[] nums, int left, int right) {
         while (left < right) {
-            swap(nums, left, right);
-            left++;
-            right--;
+            swap(nums, left++, right--);
         }
     }
 
@@ -55,8 +75,8 @@ public class NextPermutation {
         tester.nextPermutation(nums);
         Assert.assertArrayEquals(expected, nums);
 
-        int[] numsI = {1, 2, 3};
-        int[] expectedI = {1, 3, 2};
+        int[] numsI = {1, 5, 1};
+        int[] expectedI = {5, 1, 1};
         tester.nextPermutation(numsI);
         Assert.assertArrayEquals(expectedI, numsI);
     }
