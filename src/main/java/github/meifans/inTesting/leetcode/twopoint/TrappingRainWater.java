@@ -1,4 +1,4 @@
-package github.meifans.inTesting.leetcode.trend;
+package github.meifans.inTesting.leetcode.twopoint;
 
 import org.junit.Test;
 
@@ -6,6 +6,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrappingRainWater {
+
+    public int trapI(int[] height) {
+        int sum = 0;
+        int leftLevel = 0, leftTemp = 0;
+        int rightLevel = 0, rightTemp = 0;
+
+        for (int i = 0; i < height.length; i++) {
+            if (height[i] >= leftLevel) {
+                leftLevel = height[i];
+                sum += leftTemp;
+                leftTemp = 0;
+            } else {
+                leftTemp += leftLevel - height[i];
+            }
+
+            int j = height.length - i - 1;
+
+            if (height[j] > rightLevel) {
+                rightLevel = height[j];
+                sum += rightTemp;
+                rightTemp = 0;
+            } else {
+                rightTemp += rightLevel - height[j];
+            }
+        }
+        return sum;
+    }
+
+
     public int trap(int[] height) {
         List<Integer> horizontal = new ArrayList<>();
 
@@ -21,7 +50,7 @@ public class TrappingRainWater {
         return sum;
     }
 
-    private int trapLTR( int[] height, List<Integer> horizontal) {
+    private int trapLTR(int[] height, List<Integer> horizontal) {
         int max = 1;
         for (int i = 0; i < height.length; i++) {
             if (height[i] >= max) {
