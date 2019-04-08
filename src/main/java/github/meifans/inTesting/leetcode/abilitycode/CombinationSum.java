@@ -47,8 +47,8 @@ public class CombinationSum {
 
 
     public List<List<Integer>> combinationSum100(int[] candidates, int target) {
-        List<List<Integer>> result = new ArrayList<>(); // to record all the solutions
-        List<Integer> item = new ArrayList<>(); // to record each soltuion
+        List<List<Integer>> result = new ArrayList<>(); // to column all the solutions
+        List<Integer> item = new ArrayList<>(); // to column each soltuion
         Arrays.sort(candidates); // to void duplicate result.
         int start = 0; // to start with the first element
         dfs(candidates, target, start, item, result);

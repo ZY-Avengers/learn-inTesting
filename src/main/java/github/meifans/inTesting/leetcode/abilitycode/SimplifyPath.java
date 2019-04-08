@@ -1,36 +1,31 @@
-package main.java.github.meifans.inTesting.leetcode.abilitycode;
+package github.meifans.inTesting.leetcode.abilitycode;
 
+import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * @author pengfei.zhao
+ */
 public class SimplifyPath {
     public String simplifyPath(String path) {
         String res = "/";
-        for (int i = 0; i < path.length(); ) {
-            if (startWith(path, i + 1, "/")) {
+        for (int i = 1; i < path.length(); ) {
+            if (path.startsWith("/", i)) {
+                i = i + 1;
+            } else if (path.startsWith("./", i)) {
                 i = i + 2;
-            } else if (startWith(path, i + 1, "./")) {
+            } else if (i == path.length() - 1 && path.startsWith(".", i)) {
+                i = i + 1;
+            } else if (path.startsWith("../", i)) {
+                res = res.substring(0, lastSlashIndex(res) + 1);    // back one slash
                 i = i + 3;
-            } else if (startWith(path, i + 1, "../")) {
-                int index = 0;
-                for (int j = res.length() - 2; j >= 0; j--) {
-                    if (res.charAt(j) == '/') {
-                        index = j;
-                        break;
-                    }
-                }
-                res = res.substring(0, index + 1);
-                i = i + 4;
+            } else if (i == path.length() - 2 && path.startsWith("..", i)) {
+                res = res.substring(0, lastSlashIndex(res) + 1);
+                i = i + 2;
             } else {
-                for (int j = i + 1; j < path.length(); j++) {
-                    if (path.charAt(j) == '/') {
-                        res = res + path.substring(i + 1, j + 1);
-                        i = j;
-                        break;
-                    }
-                    if (j == path.length() - 1) {
-                        return res + path.substring(i + 1, j + 1);
-                    }
-                }
+                int j = nextSlashIndex(path, i);  // append one layer
+                res = res + path.substring(i, j + 1);
+                i = j + 1;
             }
         }
         if (res.length() != 1 && res.endsWith("/")) {
@@ -39,21 +34,32 @@ public class SimplifyPath {
         return res;
     }
 
-    boolean startWith(String path, int start, String prefix) {
-        int i = 0;
-        while (start < path.length() && i < prefix.length()) {
-            if (path.charAt(start) != prefix.charAt(i)) {
-                return false;
+    private int nextSlashIndex(String path, int toffset) {
+        for (int j = toffset; j < path.length(); j++) {
+            if (path.charAt(j) == '/' || j == path.length() - 1) {
+                return j;
             }
-            start++;
-            i++;
         }
-        return i == prefix.length();
+        return toffset;
     }
 
+    private int lastSlashIndex(String res) {
+        int index = 0;
+        for (int j = res.length() - 2; j >= 0; j--) {
+            if (res.charAt(j) == '/') {
+                index = j;
+                break;
+            }
+        }
+        return index;
+    }
 
     @Test
     public void test() {
-        new SimplifyPath().simplifyPath("/a/./b/../../c/");
+        String[] path = {"/a/./b/../../c", "/a//b////c/d//././/..", "/."};
+        String[] expected = {"/c", "/a/b/c", "/"};
+        for (int i = 0; i < path.length; i++) {
+            Assert.assertEquals(expected[i], new SimplifyPath().simplifyPath(path[i]));
+        }
     }
 }
