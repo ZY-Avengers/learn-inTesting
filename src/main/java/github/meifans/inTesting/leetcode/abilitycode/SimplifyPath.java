@@ -3,10 +3,25 @@ package github.meifans.inTesting.leetcode.abilitycode;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.*;
+
 /**
  * @author pengfei.zhao
  */
 public class SimplifyPath {
+
+    String simplifyPath_Stack(String path) {
+        Deque<String> stack = new LinkedList<>();
+        Set<String> skip = new HashSet<>(Arrays.asList("..", ".", ""));
+        for(String dir : path.split("/")){
+            if(dir.equals("..")&& !stack.isEmpty()) stack.pop();
+            else if ( !skip.contains(dir)) stack.push(dir);
+        }
+        String res = "";
+        for (String dir: stack) res = "/" + dir + res;
+        return res.isEmpty() ? "/" : res;
+    }
+
     public String simplifyPath(String path) {
         String res = "/";
         for (int i = 1; i < path.length(); ) {
